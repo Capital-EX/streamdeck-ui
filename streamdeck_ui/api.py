@@ -368,10 +368,18 @@ class StreamDeckServer:
         if self.get_button_command(deck_id, page, button) != command:
             self._button_state(deck_id, page, button)["command"] = command
             self._save_state()
+    
+    def set_button_command_release(self, deck_id: str, page: int, button: int, command_release: str) -> None:
+        if self.get_button_command_release(deck_id, page, button) != command_release:
+            self._button_state(deck_id, page, button)["command_release"] = command_release
+            self._save_state()
 
     def get_button_command(self, deck_id: str, page: int, button: int) -> str:
         """Returns the command set for the specified button"""
         return self._button_state(deck_id, page, button).get("command", "")
+
+    def get_button_command_release(self, deck_id: str, page: int, button: int) -> str:
+        return self._button_state(deck_id, page, button).get("command_release", "")
 
     def set_button_switch_page(self, deck_id: str, page: int, button: int, switch_page: int) -> None:
         """Sets the page switch associated with the button"""

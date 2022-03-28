@@ -73,8 +73,7 @@ class StreamDeckMonitor:
         self.streamdecks = {}
 
     def _run(self):
-        """Runs the internal monitor thread until completion
-        """
+        """Runs the internal monitor thread until completion"""
         while not self.quit.is_set():
 
             with self.lock:

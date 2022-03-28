@@ -211,7 +211,7 @@ class Ui_MainWindow(object):
         self.label_5 = QLabel(self.groupBox)
         self.label_5.setObjectName(u"label_5")
 
-        self.formLayout.setWidget(3, QFormLayout.LabelRole, self.label_5)
+        self.formLayout.setWidget(4, QFormLayout.LabelRole, self.label_5)
 
         self.keys = QComboBox(self.groupBox)
         self.keys.addItem(u"")
@@ -233,12 +233,12 @@ class Ui_MainWindow(object):
         self.keys.setObjectName(u"keys")
         self.keys.setEditable(True)
 
-        self.formLayout.setWidget(3, QFormLayout.FieldRole, self.keys)
+        self.formLayout.setWidget(4, QFormLayout.FieldRole, self.keys)
 
         self.label_8 = QLabel(self.groupBox)
         self.label_8.setObjectName(u"label_8")
 
-        self.formLayout.setWidget(4, QFormLayout.LabelRole, self.label_8)
+        self.formLayout.setWidget(6, QFormLayout.LabelRole, self.label_8)
 
         self.switch_page = QSpinBox(self.groupBox)
         self.switch_page.setObjectName(u"switch_page")
@@ -246,28 +246,28 @@ class Ui_MainWindow(object):
         self.switch_page.setMaximum(10)
         self.switch_page.setValue(0)
 
-        self.formLayout.setWidget(4, QFormLayout.FieldRole, self.switch_page)
+        self.formLayout.setWidget(6, QFormLayout.FieldRole, self.switch_page)
 
         self.label_7 = QLabel(self.groupBox)
         self.label_7.setObjectName(u"label_7")
 
-        self.formLayout.setWidget(5, QFormLayout.LabelRole, self.label_7)
+        self.formLayout.setWidget(7, QFormLayout.LabelRole, self.label_7)
 
         self.change_brightness = QSpinBox(self.groupBox)
         self.change_brightness.setObjectName(u"change_brightness")
         self.change_brightness.setMinimum(-99)
 
-        self.formLayout.setWidget(5, QFormLayout.FieldRole, self.change_brightness)
+        self.formLayout.setWidget(7, QFormLayout.FieldRole, self.change_brightness)
 
         self.label_6 = QLabel(self.groupBox)
         self.label_6.setObjectName(u"label_6")
 
-        self.formLayout.setWidget(6, QFormLayout.LabelRole, self.label_6)
+        self.formLayout.setWidget(8, QFormLayout.LabelRole, self.label_6)
 
         self.write = QPlainTextEdit(self.groupBox)
         self.write.setObjectName(u"write")
 
-        self.formLayout.setWidget(6, QFormLayout.FieldRole, self.write)
+        self.formLayout.setWidget(8, QFormLayout.FieldRole, self.write)
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
@@ -289,6 +289,16 @@ class Ui_MainWindow(object):
 
         self.formLayout.setLayout(1, QFormLayout.FieldRole, self.horizontalLayout_3)
 
+        self.label_4 = QLabel(self.groupBox)
+        self.label_4.setObjectName(u"label_4")
+
+        self.formLayout.setWidget(3, QFormLayout.LabelRole, self.label_4)
+
+        self.command_release = QLineEdit(self.groupBox)
+        self.command_release.setObjectName(u"command_release")
+
+        self.formLayout.setWidget(3, QFormLayout.FieldRole, self.command_release)
+
 
         self.verticalLayout_3.addLayout(self.formLayout)
 
@@ -304,7 +314,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 940, 22))
+        self.menubar.setGeometry(QRect(0, 0, 940, 25))
         self.menuFile = QMenu(self.menubar)
         self.menuFile.setObjectName(u"menuFile")
         self.menuHelp = QMenu(self.menubar)
@@ -372,8 +382,8 @@ class Ui_MainWindow(object):
 #endif // QT_CONFIG(tooltip)
         self.removeButton.setText("")
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Label:", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Command:", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Press Keys:", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Command on:<br/>Press</p></body></html>", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Press Keys", None))
 
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Switch Page:", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Brightness +/-:", None))
@@ -382,6 +392,7 @@ class Ui_MainWindow(object):
         self.textButton.setToolTip(QCoreApplication.translate("MainWindow", u"Text vertical alignment", None))
 #endif // QT_CONFIG(tooltip)
         self.textButton.setText("")
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Command on:<br/>Release</p></body></html>", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
         self.menuHelp.setTitle(QCoreApplication.translate("MainWindow", u"Help", None))
     # retranslateUi

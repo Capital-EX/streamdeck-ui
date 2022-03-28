@@ -13,7 +13,17 @@ from pynput.keyboard import Controller, Key
 from PySide2 import QtWidgets
 from PySide2.QtCore import QMimeData, QSignalBlocker, QSize, Qt, QTimer, QUrl
 from PySide2.QtGui import QDesktopServices, QDrag, QIcon
-from PySide2.QtWidgets import QAction, QApplication, QDialog, QFileDialog, QMainWindow, QMenu, QMessageBox, QSizePolicy, QSystemTrayIcon
+from PySide2.QtWidgets import (
+    QAction,
+    QApplication,
+    QDialog,
+    QFileDialog,
+    QMainWindow,
+    QMenu,
+    QMessageBox,
+    QSizePolicy,
+    QSystemTrayIcon,
+)
 
 from streamdeck_ui.api import StreamDeckServer
 from streamdeck_ui.config import LOGO, STATE_FILE
@@ -135,6 +145,8 @@ def _replace_special_keys(key):
 
 def handle_keypress(ui, deck_id: str, key: int, state: bool) -> None:
 
+    page = api.get_page(deck_id)
+
     # TODO: Handle both key down and key up events in future.
     if state:
 
@@ -142,7 +154,7 @@ def handle_keypress(ui, deck_id: str, key: int, state: bool) -> None:
             return
 
         kb = Controller()
-        page = api.get_page(deck_id)
+        
 
         command = api.get_button_command(deck_id, page, key)
         if command:
@@ -219,7 +231,14 @@ def handle_keypress(ui, deck_id: str, key: int, state: bool) -> None:
             api.set_page(deck_id, switch_page - 1)
             if _deck_id(ui) == deck_id:
                 ui.pages.setCurrentIndex(switch_page - 1)
-
+    else:
+        command_release = api.get_button_command_release(deck_id, page, key)
+        print(command_release)
+        if command_release:
+            try:
+                Popen(shlex.split(command_release))
+            except Exception as error:
+                print(f"The command '{command_release}' failed: {error}")
 
 def _deck_id(ui) -> str:
     """Returns the currently selected Stream Deck serial number
@@ -251,6 +270,11 @@ def update_button_command(ui, command: str) -> None:
     if selected_button:
         deck_id = _deck_id(ui)
         api.set_button_command(deck_id, _page(ui), selected_button.index, command)
+
+def update_button_command_release(ui, command_release: str) -> None:
+    if selected_button:
+        deck_id = _deck_id(ui)
+        api.set_button_command_release(deck_id, _page(ui), selected_button.index, command_release)
 
 
 def update_button_keys(ui, keys: str) -> None:
@@ -393,6 +417,7 @@ def button_clicked(ui, clicked_button, buttons) -> None:
         enable_button_configuration(ui, True)
         ui.text.setText(api.get_button_text(deck_id, _page(ui), button_id))
         ui.command.setText(api.get_button_command(deck_id, _page(ui), button_id))
+        ui.command_release.setText(api.get_button_command_release(deck_id, _page(ui), button_id))
         ui.keys.setCurrentText(api.get_button_keys(deck_id, _page(ui), button_id))
         ui.write.setPlainText(api.get_button_write(deck_id, _page(ui), button_id))
         ui.change_brightness.setValue(api.get_button_change_brightness(deck_id, _page(ui), button_id))
@@ -406,6 +431,7 @@ def button_clicked(ui, clicked_button, buttons) -> None:
 def enable_button_configuration(ui, enabled: bool):
     ui.text.setEnabled(enabled)
     ui.command.setEnabled(enabled)
+    ui.command_release.setEnabled(enabled)
     ui.keys.setEnabled(enabled)
     ui.write.setEnabled(enabled)
     ui.change_brightness.setEnabled(enabled)
@@ -421,6 +447,7 @@ def reset_button_configuration(ui):
     """
     ui.text.clear()
     ui.command.clear()
+    ui.command_release.clear()
     ui.keys.clearEditText()
     ui.write.clear()
     ui.change_brightness.setValue(0)
@@ -713,6 +740,7 @@ def create_main_window(logo: QIcon, app: QApplication) -> MainWindow:
     ui = main_window.ui
     ui.text.textChanged.connect(partial(queue_update_button_text, ui))
     ui.command.textChanged.connect(partial(update_button_command, ui))
+    ui.command_release.textChanged.connect(partial(update_button_command_release, ui))
     ui.keys.currentTextChanged.connect(partial(update_button_keys, ui))
     ui.write.textChanged.connect(partial(update_button_write, ui))
     ui.change_brightness.valueChanged.connect(partial(update_change_brightness, ui))
